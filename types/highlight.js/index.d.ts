@@ -27,9 +27,11 @@ declare namespace hljs
 	export function initHighlighting(): void;
 	export function initHighlightingOnLoad(): void;
 
+	export type Language = (hljs?: HLJSStatic) => IModeBase
+
 	export function registerLanguage(
 		name: string,
-		language: (hljs?: HLJSStatic) => IModeBase): void;
+		language: Language): void;
 	export function listLanguages(): string[];
 	export function getLanguage(name: string): IMode;
 
@@ -158,6 +160,13 @@ declare namespace hljs
 	}
 }
 
+declare module 'highlight.js/lib/highlight' {
+    export = hljs
+}
+declare module 'highlight.js/lib/languages/*' {
+	const language: hljs.Language
+	export = language
+}
 
 export = hljs;
 export as namespace hljs;
